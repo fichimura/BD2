@@ -21,18 +21,70 @@ WHERE A.FK_ARTISTA_NOME = 'ASDQJIWBDIQWJ';
 
 /*5Listar as coleções (Nome e típo) que contêm objetos de arte produzidos pelo
 artista X.*/
+SELECT NOME, TIPO FROM COLECOES
+LEFT JOIN 
+
+SELECT NOME FROM ARTISTA WHERE NOME = #X
+
+SELECT NUM_ID FROM OBJETO_ARTE WHERE FK_ARTISTA_NOME = (PONHA) 
+
+SELECT FK_COLECOES_NOME FROM EMPRESTADO WHERE FK_OBJETO_ARTE_NUM_ID = ()
+
+SELECT NOME, TIPO FROM COLECOES WHERE NOME IN (
+SELECT FK_COLECOES_NOME FROM EMPRESTADO WHERE FK_OBJETO_ARTE_NUM_ID IN (
+    SELECT NUM_ID FROM OBJETO_ARTE WHERE FK_ARTISTA_NOME IN (
+        SELECT NOME FROM ARTISTA WHERE NOME = 'DKNAKJDNA'
+    )
+));
 
 
 /*
 6. Qual é o custo total da coleção permanente do museu?
+*/
+SELECT SUM(CUSTO) FROM COLECAO_PERMANENTE;
+
+/*
 7. Quais são os objetos (Numid e título) da coleção permanente cujo custo é
 maior que o custo médio de todos os objetos do museu?
+*/
+SELECT NUM_ID, TITULO FROM OBJETO_ARTE WHERE (NUM_ID IN (
+    SELECT FK_OBJETO_ARTE_NUM_ID FROM COLECAO_PERMANENTE WHERE CUSTO >(
+        SELECT AVG(CUSTO) FROM COLECAO_PERMANENTE)));
+
+/*
 8. Quais são as coleções (sem considerar a permanente) com o maior número de
 objetos de arte emprestados?
+*/
+SELECT COUNT(CAT_OBJ_ARTE), FK_COLECOES_NOME FROM(
+SELECT A.CAT_OBJ_ARTE, B.FK_COLECOES_NOME FROM OBJETO_ARTE AS A
+INNER JOIN (SELECT FK_OBJETO_ARTE_NUM_ID, FK_COLECOES_NOME FROM EMPRESTADO WHERE FK_COLECOES_NOME IN(
+    SELECT NOME FROM COLECOES)) AS B
+ON A.NUM_ID = B.FK_OBJETO_ARTE_NUM_ID) AS C;
+
+/*
 9. Quais são as coleções (sem considerar a permanente) com o maior custo total
 de objetos emprestados?
+*/
+
+SELECT COUNT(CAT_OBJ_ARTE), FK_COLECOES_NOME FROM(
+SELECT A.CAT_OBJ_ARTE, B.FK_COLECOES_NOME FROM OBJETO_ARTE AS A
+INNER JOIN (SELECT FK_OBJETO_ARTE_NUM_ID, FK_COLECOES_NOME FROM EMPRESTADO WHERE FK_COLECOES_NOME IN(
+    SELECT NOME FROM COLECOES)) AS B
+ON A.NUM_ID = B.FK_OBJETO_ARTE_NUM_ID) AS C;
+
+/*
 10. Quais são as coleções com maior número de objetos emprestados que o número
 de objetos da coleção permanente?
+*/
+
+/*
 11. Quais são as coleções que tem contribuído em todas as exposições de 2010?
+*/
+
+/*
 12. Remover todos os objetos emprestados da coleção Y.
-13. Transferir o objeto de título X da coleção Y para coleção permanente./*
+/*
+
+/*
+13. Transferir o objeto de título X da coleção Y para coleção permanente.
+/*
